@@ -9,13 +9,11 @@
  * 
  */
 
-export function createError(status:number, message:string) {
-    const error = new AppError(message);
-    error.status = status;
-    return error;
-  }
+ abstract class HttpError extends Error{
+     status!:number;
+ }
 
-export class AppError  extends Error implements AppErrorInterface{
+export class RequestError  extends HttpError{
    public status:any
    constructor(message:string){
        super(message)
@@ -23,6 +21,9 @@ export class AppError  extends Error implements AppErrorInterface{
    }
     
 }
-export interface AppErrorInterface extends Error{
-    status:number
+
+export function createError(status:number, message:string) {
+    const error = new RequestError(message);
+    error.status = status;
+    return error;
 }

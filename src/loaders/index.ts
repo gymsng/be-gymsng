@@ -11,11 +11,11 @@ import chalk from "chalk";
  * @return {Promise}
  */
 
-export default  function loadAppResources(app:Application){
+export default function loadAppResources(app: Application) {
     console.log(chalk.bold.blue("loading app resources..."))
-   return Promise.all([
-       loadMongo(),
-       loadRoutes(app),
-       loadStore(app)
-    ]).then(() =>  console.log(chalk.bold.green("app resources Loaded")));
+    return Promise.all([
+        loadMongo(),
+        loadStore(app), //store must be loaded before routes, if not session might end up undefined
+        loadRoutes(app)
+    ]).then(() => console.log(chalk.bold.green("app resources Loaded")));
 }
