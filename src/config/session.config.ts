@@ -2,7 +2,7 @@ import { SessionOptions } from 'express-session'
 import { IN_PROD } from "./index"
 const ONE_HOUR = 1000 * 60 * 60
 const THIRTY_MINUTES = ONE_HOUR / 2
-const SIX_HOURS = ONE_HOUR * 6
+const SIX_HOURS = ONE_HOUR * 6 //six hours dev
 const { env } = process
 export const {
   SESSION_SECRET = `please keep secret`,
@@ -18,7 +18,7 @@ export const SESSION_OPTIONS: SessionOptions = {
   cookie: {
     maxAge: +SESSION_IDLE_TIMEOUT,
     secure: IN_PROD,
-    sameSite: true,
+    sameSite: false,
   },
   rolling: true,
   resave: false,

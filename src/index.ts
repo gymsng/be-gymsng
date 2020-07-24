@@ -11,6 +11,8 @@ const app = createApp();
 loadAppResources(app).then(()=>{
     //after app has loaded its resources, succesfully starts the server
     const Server = http.createServer(app)
+    //set up a tls socket
+    
     Server.listen(APP_PORT, () => console.log(chalk.bold.yellow(`server is running at http://localhost:${APP_PORT}`)));
 })
 

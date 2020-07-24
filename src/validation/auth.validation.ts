@@ -30,6 +30,6 @@ export const validate = async (schema: ObjectSchema, payload: any) => {
     try {
         await schema.validateAsync(payload, { abortEarly: false })
     } catch (err) {
-        throw createError(STATUSCODE.bad, err);
+        throw createError(STATUSCODE.BAD, err);
     }
 }

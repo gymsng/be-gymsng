@@ -1,3 +1,17 @@
+
+ abstract class HttpError extends Error{
+     status!:number;
+ }
+
+export class RequestError  extends HttpError{
+   public status:any
+   constructor(message:string){
+       super(message)
+       this.status = 200 //default is success
+   }
+    
+}
+
 /**
  * CREATES AN ERROR OBJECT THAT HANDLES BOTH INTERNAL AND SERVER ERRORS
  * ERROR OBJECTS INHERITS FROM BOTH JS NATIVE ERROR AND HAVE EXTRA
@@ -8,20 +22,6 @@
  * @return {Object} error object
  * 
  */
-
- abstract class HttpError extends Error{
-     status!:number;
- }
-
-export class RequestError  extends HttpError{
-   public status:any
-   constructor(message:string){
-       super(message)
-       this.status = 0
-   }
-    
-}
-
 export function createError(status:number, message:string) {
     const error = new RequestError(message);
     error.status = status;

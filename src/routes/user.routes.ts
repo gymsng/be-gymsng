@@ -3,11 +3,14 @@ import { userController } from "../controllers"
 import { ensureIsLoggedOut, ensureIsLoggedIn } from "../middlewares"
 export const userRoute = Router();
 
-//Get Endpoint
+// GET ENDPOINTS
 userRoute.get('/', ensureIsLoggedIn, userController.index)
-// POST ENDPOINT
+
+
+// POST ENDPOINTS
 userRoute.post("/register", ensureIsLoggedOut, userController.registerUser)
 userRoute.post("/login", ensureIsLoggedOut, userController.loginUser)
 userRoute.post("/logout", ensureIsLoggedIn, userController.logOutUser)
-
+userRoute.post("/registerAdmin",ensureIsLoggedOut,userController.registerAdmin)
+userRoute.post("/registerSuperAdmin",ensureIsLoggedIn,userController.registerSuperAdmin)
 

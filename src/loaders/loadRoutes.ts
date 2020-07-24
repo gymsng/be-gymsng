@@ -1,12 +1,13 @@
 import express, { Application } from "express"
 import { apiRoute } from "../routes"
-import chalk from "chalk";
-import { ServerError, NotFound, catchAsync, isActive } from "../middlewares";
+import chalk from "chalk"
+import cors from "cors"
+import { ServerError, NotFound, catchAsync, isActive} from "../middlewares";
 
-export const loadRoutes = (app: Application) => {
-
-  return new Promise((resolve, reject) => {
+export const loadRoutes = (app: Application) =>  new Promise((resolve, reject) => {
     app.use(express.json());
+    app.use(cors({credentials: true, origin: 'http://localhost:3000'}))
+
     app.use(catchAsync(isActive));
     //REST API ENDPOINT
     app.use("/api/v1", apiRoute);
@@ -19,6 +20,7 @@ export const loadRoutes = (app: Application) => {
 
     console.log(chalk.green("Routes Loaded"))
     resolve()
+
   });
-}
+
 
