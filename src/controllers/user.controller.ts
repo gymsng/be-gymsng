@@ -36,7 +36,7 @@ export class userController {
 
     static registerAdmin = catchAsync(async (req, res, next) => {
         await validate(regSchema, req.body);
-        const { username, fullname, email, password, isAdmin } = req.body
+        const { username, fullname, email, password} = req.body
 
         //check for existing user
         const existingUser = await User.exists({ email });
@@ -44,10 +44,10 @@ export class userController {
         if (existingUser) {
             throw createError(STATUSCODE.CONFLICT, "invalid email")
         }
-        // Create a new user if no existing
+        // Create a new admin user if no existing
         const newAdmin = await User.create({ username, fullname, email, password, isAdmin:1 })
 
-        //Login user
+        //Login admin user
         logIn(req, newAdmin.id,newAdmin.isAdmin)
         //Return response back to client
         return res.status(STATUSCODE.CREATED).json({ status: FEEDBACK.SUCCESSMESSAGE, data: newAdmin })

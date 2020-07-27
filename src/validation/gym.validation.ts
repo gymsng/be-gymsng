@@ -14,7 +14,6 @@ export const gymSchema = Joi.object({
     description,
     location, 
     services,
-    owner,
     ratings,
     openings,
     facilities
