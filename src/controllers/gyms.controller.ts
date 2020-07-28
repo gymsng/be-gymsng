@@ -41,9 +41,12 @@ export class gymsController{
         //send response
     })
     static removeGym = catchAsync(async (req,res,next)=>{
-        //validate gym
+      
           const gym = await await Gyms.findById(req.params.id).populate('owner');
-        //create gym
+          if(req.session!.userId !== gym?.owner._id){
+           
+          }
+      
         res.status(STATUSCODE.SUCCESS).json({success:FEEDBACK.SUCCESSMESSAGE,data:gym})
         //send response
     })
