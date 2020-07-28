@@ -4,16 +4,18 @@ import { hashHelper, compareHashed } from "../utils/"
 import { BCRYPT_WORK_FACTOR } from "../config";
 import {ROLES} from "../constants"
 
-interface UserDocument extends Document {
-  username: string
-  fullname: string
-  email: string
-  password: string
-  isAdmin:number
+export interface UserDocument extends Document {
+  _id:Schema.Types.ObjectId,
+  username: string,
+  fullname: string,
+  email: string,
+  password: string,
+  isAdmin:number,
   authPassword: (password: string) => Promise<boolean>
 }
 
 const userSchema = new Schema({
+  _id:{type:Schema.Types.ObjectId},
   username: { type: String, required: [true, "name cannot be blank"] },
   fullname: { type: String, required: [true, "name cannot be blank"] },
   email: { type: String, required: [true, "email must be provided"] },

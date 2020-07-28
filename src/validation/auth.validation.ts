@@ -1,6 +1,4 @@
-import Joi, { ObjectSchema } from "@hapi/joi"
-import { createError } from "../utils"
-import { STATUSCODE } from "../constants"
+import Joi from "@hapi/joi"
 
 const username = Joi.string().alphanum().min(3).max(30).required()
 
@@ -26,10 +24,3 @@ export const loginSchema = Joi.object({
     password
 })
 
-export const validate = async (schema: ObjectSchema, payload: any) => {
-    try {
-        await schema.validateAsync(payload, { abortEarly: false })
-    } catch (err) {
-        throw createError(STATUSCODE.BAD, err);
-    }
-}

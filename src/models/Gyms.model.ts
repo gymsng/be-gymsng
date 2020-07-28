@@ -3,12 +3,12 @@ interface openings {
     open:string,
     close:string
   }
-
+import {UserDocument} from "./User.model"
 interface GymDocument extends Document {
    name: string,
    location: string,
    services: string[],
-   owner: string,
+   owner: string | UserDocument,
    openings:openings[],
    description:string,
    ratings:number,

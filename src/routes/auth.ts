@@ -19,3 +19,4 @@ export const logOut = (req: Request, res: Response) => new Promise((resolve, rej
         resolve();
     })
 })
+

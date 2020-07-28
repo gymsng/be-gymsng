@@ -31,22 +31,20 @@ export class gymsController{
     })
     static getSingleGym = catchAsync(async (req,res,next)=>{
        const gym = await Gyms.findById(req.params.id).populate('owner')
-
+       res.status(STATUSCODE.SUCCESS).json({success:FEEDBACK.SUCCESSMESSAGE,data:gym})
+    })
+     static updateGym = catchAsync(async (req,res,next)=>{
+        //validate gym
+          const gym = await Gyms.findByIdAndUpdate(req.params.id,req.body)
+        //create gym
+         res.status(STATUSCODE.SUCCESS).json({success:FEEDBACK.SUCCESSMESSAGE,data:gym})
         //send response
+    })
+    static removeGym = catchAsync(async (req,res,next)=>{
+        //validate gym
+          const gym = await await Gyms.findById(req.params.id).populate('owner');
+        //create gym
         res.status(STATUSCODE.SUCCESS).json({success:FEEDBACK.SUCCESSMESSAGE,data:gym})
-    })
-     static updateGym = catchAsync((req,res,next)=>{
-        //validate gym
-          
-        //create gym
-
-        //send response
-    })
-    static removeGym = catchAsync((req,res,next)=>{
-        //validate gym
-          
-        //create gym
-
         //send response
     })
    
