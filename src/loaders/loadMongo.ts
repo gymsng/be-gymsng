@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { MONGO_URL, MONGO_OPTIONS } from "../config"
+import { MONGO_URL, MONGO_OPTIONS, ATLAS_URL } from "../config"
 import chalk from "chalk";
 
 /**
@@ -9,7 +9,7 @@ import chalk from "chalk";
 export const loadMongo = () => {
   return new Promise(async (resolve, reject) => {
     try {
-      const connection = await mongoose.connect(MONGO_URL, MONGO_OPTIONS)
+      const connection = await mongoose.connect( ATLAS_URL || MONGO_URL, MONGO_OPTIONS)
 
       console.log(chalk.green("DATABASE CONNECTED"))
 
