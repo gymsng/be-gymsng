@@ -12,4 +12,4 @@ const SubscribtionSchema = new Schema({
   status:{type:String,default:"pending"}
 },{timestamps:true});
 
-export const Bookings = model<SubscribtionDocument>("Bookings", SubscribtionSchema);
+export const  Subscribtion = model<SubscribtionDocument>(" Subscribtion", SubscribtionSchema);
