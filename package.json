@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start":"node ./src/index.js",
     "prebuild": "rm -rf dist",
     "build": "tsc",
     "dev": "ts-node-dev --transpileOnly --no-notify src"
