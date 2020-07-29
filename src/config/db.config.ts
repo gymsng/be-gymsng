@@ -6,7 +6,7 @@ MONGO_PASSWORD = 'secret',
 MONGO_HOST = 'localhost',
 MONGO_PORT = '27017',
 MONGO_DATABASE = 'auth',
-ATLAS_URL 
+RemoteDb 
 } = process.env;
 
 export const MONGO_URL = `mongodb://${MONGO_USERNAME}:${
