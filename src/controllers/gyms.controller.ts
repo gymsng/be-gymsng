@@ -43,9 +43,9 @@ export class gymsController{
     static removeGym = catchAsync(async (req,res,next)=>{
       
           const gym = await await Gyms.findById(req.params.id).populate('owner');
-          if(req.session!.userId !== gym?.owner._id){
+          // if(req.session!.userId !== gym?.owner._id){
            
-          }
+          // }
       
         res.status(STATUSCODE.SUCCESS).json({success:FEEDBACK.SUCCESSMESSAGE,data:gym})
         //send response
