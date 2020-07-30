@@ -8,7 +8,7 @@ import chalk from "chalk"
 export const createApp =()=>{
    const app = express()
     app.get("/",(_req,res)=>{
-        res.json({message:"worked"})
+        res.json({message:"worked well"})
     })
   console.log(chalk.bold.underline.green("created app"))
    return app;
