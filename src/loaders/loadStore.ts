@@ -3,7 +3,7 @@ import { SESSION_OPTIONS } from "../config"
 import connectRedis from "connect-redis"
 import Redis from 'ioredis'
 import { Application } from "express"
-import { REDIS_OPTIONS, APP_PORT } from "../config"
+import { REDIS_OPTIONS } from "../config"
 import chalk from "chalk"
 const RedisStore = connectRedis(session)
 const client = new Redis(REDIS_OPTIONS)
