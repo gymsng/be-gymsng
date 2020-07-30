@@ -15,6 +15,6 @@ loadAppResources(app).then(()=>{
     
     Server.listen(PORT, () => console.log(chalk.bold.yellow(`server is running at http://localhost:${PORT}`)));
 })
-
+//Upload the validation file to gymsbackend.herokuapp.com/.well-known/pki-validation/
 
  
