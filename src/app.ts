@@ -9,7 +9,7 @@ import path from "path"
 export const createApp =()=>{
    const app = express()
    //i will change this later
-   app.use(express.static(path.resolve(__dirname+"/public")))
+   app.use(express.static("./public"))
     
   console.log(chalk.bold.underline.green("created app"))
    return app;
