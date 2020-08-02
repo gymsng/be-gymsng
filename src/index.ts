@@ -18,13 +18,11 @@ loadAppResources(app).then(()=>{
     //create httpserver
     const httpServer = http.createServer(app)
     //create https server
-    const httpsServer = https.createServer(credentials,app);
+    //const httpsServer = https.createServer(credentials,app);
     //set up a tls socket
-    if(IN_PROD){
-        httpsServer.listen(PORT, () => console.log(chalk.bold.yellow(`server is running at https://localhost:${PORT}`)));
-    }else{
-        httpServer.listen(PORT, () => console.log(chalk.bold.yellow(`server is running at http://localhost:${PORT}`)));
-    }
+    
+    httpServer.listen(PORT, () => console.log(chalk.bold.yellow(`server is running at http://localhost:${PORT}`)));
+    
     
 })
 //Upload the validation file to gymsbackend.herokuapp.com/.well-known/pki-validation/
