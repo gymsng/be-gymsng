@@ -11,7 +11,7 @@ export const loadRoutes = (app: Application) =>  new Promise((resolve, reject) =
     
     app.use(catchAsync(isActive));
     //REST API ENDPOINT
-    app.use("/api/v1", apiRoute);
+    app.use("/v1", apiRoute);
    
     //TODO-> GRAPHQL API ENDPOINT
    
