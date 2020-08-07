@@ -16,4 +16,4 @@ const MembershipSchema = new Schema({
   discountPrice:{type:Number},
 },{timestamps:true});
 
-export const Membership = model<MembershipDocument>("Bookings", MembershipSchema);
+export const Memberships = model<MembershipDocument>("Memberships", MembershipSchema);

@@ -1,7 +1,7 @@
 import { Request, Response } from "express"
 import { SESSION_NAME } from "../config"
 
-export const isLoggedIn = (req: Request) => !!req.session!.userId
+export const isLoggedIn = (req: Request) =>!!req.session!.userId 
 //login user
 export const logIn = (req: Request, userId: string, role:number) => {
     req.session!.userId = userId

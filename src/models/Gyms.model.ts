@@ -24,6 +24,14 @@ const GymSchema = new Schema({
   description: {type:String},
   ratings: { type: Number, max: [5, "rating cannot exceed 5"] },
   facilities: { type: Array, default: [] },
+  memberships:[{type:Schema.Types.ObjectId, ref:"Memberships"}]
 },{timestamps:true});
+
+
+//Hidden fields, when sending user data via json, prevents sesnsitive info from being sent
+GymSchema.set('toJSON', {
+  transform: (doc, { __v,owner, ...rest }) => rest
+})
+
 
 export const Gyms = model<GymDocument>("Gyms", GymSchema);
