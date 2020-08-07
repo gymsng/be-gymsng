@@ -16,7 +16,7 @@ interface GymDocument extends Document {
  }
  
 const GymSchema = new Schema({
-  name: { type: String, required: [true, "gym must have a name"] },
+  name: { type: String, required: [true, "gym must have a name"], unique:[true,"name already exists"] },
   location: { type: String, required: [true, "location cannot be empty"] },
   services: { type: Array, default: [] },
   owner: { type:Schema.Types.ObjectId, ref:'User' },

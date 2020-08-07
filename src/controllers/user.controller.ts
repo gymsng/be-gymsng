@@ -1,5 +1,5 @@
 import { regSchema, validate, loginSchema } from "../validation"
-import { FEEDBACK,STATUSCODE, ROLES  } from "../constants"
+import { STATUSCODE, ROLES } from "../constants"
 import { catchAsync } from "../middlewares"
 import { createError } from "../utils"
 import { User } from "../models"
@@ -9,7 +9,7 @@ import { logIn, logOut } from "../routes/auth"
 export class userController {
     static index = catchAsync(async (req, res, next) => {
         const user = await User.findById(req.session!.userId);
-        return res.status(STATUSCODE.SUCCESS).json({ message: "OK", data: user })
+        return res.status(STATUSCODE.SUCCESS).json({ error: false, message: "OK", data: user })
     })
 
 
@@ -24,19 +24,19 @@ export class userController {
             throw createError(STATUSCODE.CONFLICT, "invalid email")
         }
         // Create a new user if no existing
-        const user = await User.create({ username, fullname, email, password, isAdmin:0 })
+        const user = await User.create({ username, fullname, email, password, isAdmin: 0 })
 
         //Login user
-        logIn(req, user.id,user.isAdmin)
+        logIn(req, user.id, user.isAdmin)
         //Return response back to client
-        return res.status(STATUSCODE.CREATED).json({ status: FEEDBACK.SUCCESSMESSAGE, data: user })
+        return res.status(STATUSCODE.CREATED).json({ error: false, data: user })
     });
 
 
 
     static registerAdmin = catchAsync(async (req, res, next) => {
         await validate(regSchema, req.body);
-        const { username, fullname, email, password} = req.body
+        const { username, fullname, email, password } = req.body
 
         //check for existing user
         const existingUser = await User.exists({ email });
@@ -45,22 +45,22 @@ export class userController {
             throw createError(STATUSCODE.CONFLICT, "invalid email")
         }
         // Create a new admin user if no existing
-        const newAdmin = await User.create({ username, fullname, email, password, isAdmin:1 })
+        const newAdmin = await User.create({ username, fullname, email, password, isAdmin: 1 })
 
         //Login admin user
-        logIn(req, newAdmin.id,newAdmin.isAdmin)
+        logIn(req, newAdmin.id, newAdmin.isAdmin)
         //Return response back to client
-        return res.status(STATUSCODE.CREATED).json({ status: FEEDBACK.SUCCESSMESSAGE, data: newAdmin })
+        return res.status(STATUSCODE.CREATED).json({ error: false, data: newAdmin })
     });
 
-    
+
     static registerSuperAdmin = catchAsync(async (req, res, next) => {
         await validate(regSchema, req.body)
         const { username, fullname, email, password } = req.body
         const { isAdmin } = req.session!
 
-        if(isAdmin !== ROLES.SUPERADMIN){
-            throw createError(STATUSCODE.UNAUTHORIZED,"you cant create a Super admin");
+        if (isAdmin !== ROLES.SUPERADMIN) {
+            throw createError(STATUSCODE.UNAUTHORIZED, "you cant create a Super admin");
         }
         //check for existing user
         const existingUser = await User.exists({ email });
@@ -69,11 +69,11 @@ export class userController {
             throw createError(STATUSCODE.CONFLICT, "invalid email")
         }
         // Create a new user if no existing
-        const newSuperAdmin = await User.create({ username, fullname, email, password, isAdmin:ROLES.SUPERADMIN })
+        const newSuperAdmin = await User.create({ username, fullname, email, password, isAdmin: ROLES.SUPERADMIN })
         //Return response back to client
-        return res.status(STATUSCODE.CREATED).json({ status: FEEDBACK.SUCCESSMESSAGE, data: newSuperAdmin })
+        return res.status(STATUSCODE.CREATED).json({ error: false, data: newSuperAdmin })
     });
-    
+
     static loginUser = catchAsync(async (req, res, next) => {
         await validate(loginSchema, req.body)
         const { email, password } = req.body
@@ -83,12 +83,12 @@ export class userController {
         }
         //Login User
         logIn(req, user.id, user.isAdmin)
-        return res.status(STATUSCODE.SUCCESS).json({ message: "OK", data:user });
+        return res.status(STATUSCODE.SUCCESS).json({ error: false, message: "OK", data: user });
     })
-    
+
     static logOutUser = catchAsync(async (req, res, next) => {
         await logOut(req, res)
-        return res.status(STATUSCODE.SUCCESS).json({ message: "OK" });
+        return res.status(STATUSCODE.SUCCESS).json({ error: false, message: "OK" });
     })
 
 

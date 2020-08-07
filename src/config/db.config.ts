@@ -16,5 +16,6 @@ export const MONGO_URL = `mongodb://${MONGO_USERNAME}:${
 
 export const MONGO_OPTIONS: ConnectionOptions = {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false 
 }

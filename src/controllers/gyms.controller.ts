@@ -1,6 +1,6 @@
 import { catchAsync } from "../middlewares";
 import { createError } from "../utils"
-import { FEEDBACK, STATUSCODE, ROLES } from "../constants"
+import {  STATUSCODE, ROLES } from "../constants"
 import { gymSchema, validate } from "../validation"
 import { Gyms, UserDocument } from "../models"
 import session from "express-session";
@@ -18,35 +18,27 @@ export class gymsController {
       throw createError(STATUSCODE.CONFLICT, "gym already exists")
     }
     const gym = await Gyms.create({ ...req.body, owner: req.session!.userId });
-    res.status(STATUSCODE.SUCCESS).json({ message: "OK", data: gym })
+    res.status(STATUSCODE.SUCCESS).json({error:false, message: "gym created successfully", data: gym })
   })
 
   static getAllGym = catchAsync(async (req, res, next) => {
     const gyms = await Gyms.find({}).populate("Memberships")
-    res.status(STATUSCODE.SUCCESS).json({ message: "OK", data: gyms })
+    res.status(STATUSCODE.SUCCESS).json({ error:false, count:gyms.length, message: "OK", data: gyms })
   })
 
   static getGymById = catchAsync(async (req, res, next) => {
     const gym = await Gyms.findById(req.params.id).populate('owner')
-    res.status(STATUSCODE.SUCCESS).json({ success: FEEDBACK.SUCCESSMESSAGE, data: gym })
+    res.status(STATUSCODE.SUCCESS).json({ error:false, data: gym })
   })
 
   static updateGymById = catchAsync(async (req, res, next) => {
-    const gym = await await Gyms.findById(req.params.id).populate('owner')
-    if (req.session!.userId !== (<UserDocument>gym!.owner)._id) {
-      throw createError(STATUSCODE.UNAUTHORIZED, "you can't carry this operation")
-    }
-    
-    const updatedGym = await gym!.update(req.body)
-    res.status(STATUSCODE.SUCCESS).json({ success: FEEDBACK.SUCCESSMESSAGE, data: updatedGym })
+    const updatedGym = await Gyms.findOneAndUpdate({ _id: req.params.id, owner: req.session!.userId }, req.body, { new: true })
+    res.status(STATUSCODE.SUCCESS).json({ error:false, data: updatedGym, message:"updated one gym" })
   })
 
   static removeGymById = catchAsync(async (req, res, next) => {
-    const gym =  await Gyms.findById(req.params.id).populate('owner')
-    if (req.session!.userId !== (<UserDocument>gym!.owner)._id) {
-      throw createError(STATUSCODE.UNAUTHORIZED, "you can't carry this operation")
-    }
-    res.status(STATUSCODE.SUCCESS).json({ success: FEEDBACK.SUCCESSMESSAGE, message: "ok" })
+    const updatedGym = await Gyms.findOneAndRemove({ _id: req.params.id, owner: req.session!.userId })
+    res.status(STATUSCODE.SUCCESS).json({ error:false, message: "deleted one gym" })
   })
 
 }

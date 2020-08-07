@@ -1,5 +1,5 @@
 
-export enum FEEDBACK { SUCCESSMESSAGE = "success", ERRORMESSAGE = "error"}
+
 
 export enum STATUSCODE {
     UNAUTHORIZED = 401,             // no unauthorized access
