@@ -14,9 +14,9 @@ export interface UserDocument extends Document {
 }
 
 const userSchema = new Schema({
-  username: { type: String, required: [true, "name cannot be blank"] },
-  fullname: { type: String, required: [true, "name cannot be blank"] },
-  email: { type: String, required: [true, "email must be provided"] },
+  username: { type: String, required: [true, "name cannot be blank"],lowercase:true },
+  fullname: { type: String, required: [true, "name cannot be blank"], lowercase:true },
+  email: { type: String, required: [true, "email must be provided"], lowercase:true },
   isAdmin:{type:Number, default:ROLES.USER},
   password: {
     type: String,

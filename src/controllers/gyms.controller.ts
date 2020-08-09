@@ -22,8 +22,16 @@ export class gymsController {
   })
 
   static getAllGym = catchAsync(async (req, res, next) => {
-    const gyms = await Gyms.find({}).populate("Memberships")
-    res.status(STATUSCODE.SUCCESS).json({ error:false, count:gyms.length, message: "OK", data: gyms })
+     const limit    = req.query.limit || 0
+     const skip     = req.query.skip   || 0
+     const search   = req.query.search
+     const location = req.query!.location 
+     const category = req.query.category
+
+     const gyms = await Gyms.find({
+       $or:[{location},{name:search}]
+     }).skip(+skip).limit(+limit).populate("Memberships")
+     res.status(STATUSCODE.SUCCESS).json({ error:false, count:gyms.length, message: "OK", data: gyms })
   })
 
   static getGymById = catchAsync(async (req, res, next) => {

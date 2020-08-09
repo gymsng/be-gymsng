@@ -6,7 +6,8 @@ import {createError} from "../utils"
 import  {catchAsync} from "./error.middleware"
 
 export const isGymAdminRole = catchAsync(async (req: Request, res: Response, next: NextFunction)=>{
-    const gym = await Gyms.findById(req.params.id)
+    const id = req.params.id || req.body.gymid
+    const gym = await Gyms.findById(id)
     if (!gym) throw createError(STATUSCODE.NOTFOUND, `requested gym with ${req.params.id} not found`)
     if (req.session!.userId != gym!.owner) {
       throw createError(STATUSCODE.UNAUTHORIZED, "you can't carry this operation")

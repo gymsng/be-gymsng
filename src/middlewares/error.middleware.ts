@@ -9,13 +9,17 @@ export const NotFound = (req: Request, res: Response, next: NextFunction) => {
 }
 
 export const ServerError = (err: any, req: Request, res: Response, next: NextFunction) => {
-  if (!err.status && !isMongooseCastError(err)) {
+  if (!err.status && !isMongooseCastError(err) && !isMongoDuplicateError) {
     console.log(err)
   }
   if (isMongooseCastError(err)){
     return res.status(STATUSCODE.BAD).json({error:true,message:"invalid id"});
-  }        
+  } 
+  if (isMongoDuplicateError(err)){
+    return res.status(STATUSCODE.BAD).json({error:true,message:"resource already exist"});
+  }           
   res.status(err.status || 500).json({ error:true, message: err.message || "internal server errors" });
 }
 
 const isMongooseCastError = (err:any) =>err instanceof mongoose.Error.CastError
+const isMongoDuplicateError = (err:any) => err.name == "MongoError" && err.codeName == 'DuplicateKey'

@@ -1,10 +1,9 @@
 import Joi, { ObjectSchema } from "@hapi/joi"
 
 const genString = Joi.string().alphanum().required()
-const genNumber = Joi.number().min(1).required()
-const membershipSchema = Joi.object({
-     gym:genString,
+const genNumber = Joi.string().min(1).required()
+export const membershipSchema = Joi.object({
      type:genString,
      duration:genNumber,
-     amount:genNumber,
+     price:genNumber,
 })
