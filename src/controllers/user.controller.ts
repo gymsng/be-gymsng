@@ -15,7 +15,7 @@ export class userController {
 
     static registerUser = catchAsync(async (req, res, next) => {
         await validate(regSchema, req.body);
-        const { username, fullname, email, password, isAdmin } = req.body
+        const { fullname, email, password, isAdmin } = req.body
 
         //check for existing user
         const existingUser = await User.exists({ email });
@@ -24,7 +24,7 @@ export class userController {
             throw createError(STATUSCODE.CONFLICT, "invalid email")
         }
         // Create a new user if no existing
-        const user = await User.create({ username, fullname, email, password, isAdmin: 0 })
+        const user = await User.create({  fullname, email, password, isAdmin: 0 })
 
         //Login user
         logIn(req, user.id, user.isAdmin)
@@ -36,7 +36,7 @@ export class userController {
 
     static registerAdmin = catchAsync(async (req, res, next) => {
         await validate(regSchema, req.body);
-        const { username, fullname, email, password } = req.body
+        const {  fullname, email, password } = req.body
 
         //check for existing user
         const existingUser = await User.exists({ email });
@@ -45,7 +45,7 @@ export class userController {
             throw createError(STATUSCODE.CONFLICT, "invalid email")
         }
         // Create a new admin user if no existing
-        const newAdmin = await User.create({ username, fullname, email, password, isAdmin: 1 })
+        const newAdmin = await User.create({ fullname, email, password, isAdmin: 1 })
 
         //Login admin user
         logIn(req, newAdmin.id, newAdmin.isAdmin)
@@ -56,7 +56,7 @@ export class userController {
 
     static registerSuperAdmin = catchAsync(async (req, res, next) => {
         await validate(regSchema, req.body)
-        const { username, fullname, email, password } = req.body
+        const { fullname, email, password } = req.body
         const { isAdmin } = req.session!
 
         if (isAdmin !== ROLES.SUPERADMIN) {
@@ -69,7 +69,7 @@ export class userController {
             throw createError(STATUSCODE.CONFLICT, "invalid email")
         }
         // Create a new user if no existing
-        const newSuperAdmin = await User.create({ username, fullname, email, password, isAdmin: ROLES.SUPERADMIN })
+        const newSuperAdmin = await User.create({ fullname, email, password, isAdmin: ROLES.SUPERADMIN })
         //Return response back to client
         return res.status(STATUSCODE.CREATED).json({ error: false, data: newSuperAdmin })
     });
