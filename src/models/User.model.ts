@@ -5,7 +5,6 @@ import { BCRYPT_WORK_FACTOR } from "../config";
 import {ROLES} from "../constants"
 
 export interface UserDocument extends Document {
-  username: string,
   fullname: string,
   email: string,
   password: string,
@@ -14,9 +13,8 @@ export interface UserDocument extends Document {
 }
 
 const userSchema = new Schema({
-  username: { type: String, required: [true, "name cannot be blank"],lowercase:true },
   fullname: { type: String, required: [true, "name cannot be blank"], lowercase:true },
-  email: { type: String, required: [true, "email must be provided"], lowercase:true },
+  email: { type: String, required: [true, "email must be provided"], unique:[true,"user already exists"], lowercase:true },
   isAdmin:{type:Number, default:ROLES.USER},
   password: {
     type: String,

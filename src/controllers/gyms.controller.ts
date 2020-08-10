@@ -2,7 +2,7 @@ import { catchAsync } from "../middlewares";
 import { createError } from "../utils"
 import {  STATUSCODE, ROLES } from "../constants"
 import { gymSchema, validate } from "../validation"
-import { Gyms, UserDocument } from "../models"
+import { Gyms, UserDocument, Memberships } from "../models"
 import session from "express-session";
 
 export class gymsController {
@@ -24,18 +24,26 @@ export class gymsController {
   static getAllGym = catchAsync(async (req, res, next) => {
      const limit    = req.query.limit || 0
      const skip     = req.query.skip   || 0
-     const search   = req.query.search
-     const location = req.query!.location 
-     const category = req.query.category
-
-     const gyms = await Gyms.find({
-       $or:[{location},{name:search}]
-     }).skip(+skip).limit(+limit).populate("Memberships")
+     let queries:any =[] ; //for storing user request search fields
+     if(req.query.search){queries.push({$text:{$search:req.query.search}})} 
+     //if a wildcard search option is indicated
+     delete req.query.limit, delete req.query.skip, delete req.query.search ; 
+     //delete them as they are no longer needed by find
+     for(let query in req.query){
+       if(!!req.query[query]){
+        queries.push({[query]:req.query[query] })
+       }  
+    } 
+     //dynamically generate find query from reqquery
+     if(queries.length <=0){queries = [{}]} 
+     //if no queries was  specified return all gyms
+     const gyms = await Gyms.find({$or:queries }).sort({_id:-1}).skip(+skip).limit(+limit).populate("memberships")
+     //Send Response
      res.status(STATUSCODE.SUCCESS).json({ error:false, count:gyms.length, message: "OK", data: gyms })
   })
 
   static getGymById = catchAsync(async (req, res, next) => {
-    const gym = await Gyms.findById(req.params.id).populate('owner')
+    const gym = await Gyms.findById(req.params.id).populate('memberships')
     res.status(STATUSCODE.SUCCESS).json({ error:false, data: gym })
   })
 
@@ -45,6 +53,8 @@ export class gymsController {
   })
 
   static removeGymById = catchAsync(async (req, res, next) => {
+    //remove all attached membership
+    await Memberships.deleteMany({gymid:req.gymid})
     const updatedGym = await Gyms.findOneAndRemove({ _id: req.params.id, owner: req.session!.userId })
     res.status(STATUSCODE.SUCCESS).json({ error:false, message: "deleted one gym" })
   })

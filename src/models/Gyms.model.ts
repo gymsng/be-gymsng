@@ -30,7 +30,7 @@ const GymSchema = new Schema({
   category:{type:String, default:'gym'}
 },{timestamps:true});
 
-
+GymSchema.index({'$**':'text'})
 //Hidden fields, when sending user data via json, prevents sesnsitive info from being sent
 GymSchema.set('toJSON', {
   transform: (doc, { __v,owner, ...rest }) => rest

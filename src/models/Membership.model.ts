@@ -2,7 +2,7 @@ import { Schema, model, Document, } from "mongoose";
 import { number } from "@hapi/joi";
 
 export interface MembershipDocument extends Document {
-    gymid:Schema.Types.ObjectId,
+    gymid:Schema.Types.ObjectId | string,
     type:"workout" | "monthly" | "yearly",
     duration:number,
     price:string, 
