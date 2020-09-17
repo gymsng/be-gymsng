@@ -18,7 +18,7 @@ export const ServerError = (err: any, req: Request, res: Response, next: NextFun
   if (isMongoDuplicateError(err)){
     return res.status(STATUSCODE.BAD).json({error:true,message:"resource already exist"});
   }           
-  res.status(err.status || 500).json({ error:true, message: err.message || "internal server errors" });
+ return  res.status(err.status || 500).json({ error:true, message: err.message || "internal server errors" });
 }
 
 const isMongooseCastError = (err:any) =>err instanceof mongoose.Error.CastError

@@ -8,8 +8,9 @@ import { IN_PROD } from "../config"
 
 export const loadRoutes = (app: Application) =>  new Promise((resolve, reject) => {
     app.use(express.json());
-    const client = IN_PROD ? "https://fittech.me/" : 'http://localhost:3000'
-    app.use(cors({credentials: true, origin: 'http://localhost:3000'}))
+    const client = !IN_PROD ? 'http://localhost:3000' : "https://fittech.me/"
+
+    app.use(cors({credentials: true, origin: client}))
     
     app.use(catchAsync(isActive));
     //REST API ENDPOINT
