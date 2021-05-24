@@ -37,4 +37,7 @@ GymSchema.set('toJSON', {
 })
 
 
+
+const user = model("user");
+
 export const Gyms = model<GymDocument>("Gyms", GymSchema);
